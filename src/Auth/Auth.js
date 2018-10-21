@@ -34,10 +34,24 @@ class Auth {
         if (!authResult || !authResult.idToken) {
           return reject(err);
         }
-        this.idToken = authResult.idToken;
-        this.profile = authResult.idTokenPayload;
-        // set the time that the id token will expire at
-        this.expiresAt = authResult.expiresIn * 5000 + new Date().getTime();
+        this.setSession(authResult);
+        resolve();
+      });
+    });
+  }
+
+  setSession(authResult) {
+    this.idToken = authResult.idToken;
+    this.profile = authResult.idTokenPayload;
+    // set the time that the id token will expire at
+    this.expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
+  }
+
+  silentAuth() {
+    return new Promise((resolve, reject) => {
+      this.auth0.checkSession({}, (err, authResult) => {
+        if (err) return reject(err);
+        this.setSession(authResult);
         resolve();
       });
     });
