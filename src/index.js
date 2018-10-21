@@ -4,9 +4,9 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.css';
-import { appName } from './global/constants';
+import { appInfo } from './global/constants';
 
-document.title = appName;
+document.title = appInfo.name;
 
 
 ReactDOM.render(

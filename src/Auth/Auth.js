@@ -1,11 +1,13 @@
 import auth0 from 'auth0-js';
+import { appInfo } from './../global/constants';
 
 class Auth {
   constructor() {
+    this.clientID = 'ATgqm_2d-H595P0cgfNluRZA-FU3UpAd';
     this.auth0 = new auth0.WebAuth({
       domain: 'venom-in-veins.auth0.com',
-      clientID: 'ATgqm_2d-H595P0cgfNluRZA-FU3UpAd',
-      redirectUri: 'http://localhost:3000/callback',
+      clientID: this.clientID,
+      redirectUri: appInfo.url + '/callback',
       responseType: 'token id_token',
       scope: 'openid profile'
     });
@@ -50,10 +52,10 @@ class Auth {
   }
 
   signOut() {
-    // clear id token, profile, and expiration
-    this.idToken = null;
-    this.profile = null;
-    this.expiresAt = null;
+    this.auth0.logout({
+      returnTo: appInfo.url,
+      clientID: this.clientID,
+    });
   }
 }
 
