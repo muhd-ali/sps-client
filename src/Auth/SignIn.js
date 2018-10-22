@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import auth0Client from './Auth';
+import LoadingProfile from '../components/SystemMessages/Loading/LoadingProfile/Main';
 
 class SignIn extends Component {
 
@@ -10,7 +11,7 @@ class SignIn extends Component {
 
   render() {
     return (
-      <p>Signing in...</p>
+      <LoadingProfile/>
     );
   }
 }

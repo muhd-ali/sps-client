@@ -18,7 +18,7 @@ class AccountButton extends Component {
     const innerView = <ListGroup>
       <ListGroupItem key={1} style={{'textAlign': 'center'}}>
         {!auth0Client.isAuthenticated() &&
-          <Button bsStyle="primary" href='/signin'>Sign in</Button>
+          <Button bsStyle="success" href='/signin'>Sign in</Button>
         }
         {auth0Client.isAuthenticated() &&
           <Button bsStyle="danger" onClick={() => this.signOut()}>Sign out</Button>

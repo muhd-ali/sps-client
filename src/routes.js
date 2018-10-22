@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import HomePage from './components/HomePage/Main';
 import NotFoundPage from './components/SystemMessages/Errors/NotFound/Main';
 import SignInError from './components/SystemMessages/Errors/SignIn/Main';
+import ValidatingSession from './components/SystemMessages/Loading/ValidaingSession/Main';
 import SignIn from './Auth/SignIn';
 import auth0Client from './Auth/Auth';
 import Callback from './Auth/Callback';
@@ -12,9 +13,7 @@ import AccountSettings from './components/Account/Settings/Main';
 class SecuredRoute extends Component {
   render() {
     if (this.props.checkingSession) {
-      return <h3 className="text-center">
-        Validating session...
-      </h3>;
+      return <ValidatingSession/>;
     }
     if (!auth0Client.isAuthenticated()) {
       auth0Client.signIn();

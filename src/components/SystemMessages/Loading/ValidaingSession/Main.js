@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import Template from './../../Template';
 
 class Main extends Component {
   render() {
+    const innerView = <h2>
+      Validating Session...
+    </h2>;
     return (
-      <div>
-        <h1>Awww...Don’t Cry.</h1>
-        <h2>"Validating Session..."</h2>
-      </div>
+      <Template innerView={innerView}></Template>
     );
   }
 }

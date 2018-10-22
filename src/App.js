@@ -14,12 +14,10 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    console.log('here1');
     if (this.props.location.pathname === '/callback') {
       this.setState({checkingSession:false});
       return;
     }
-    console.log('here2');
     try {
       await auth0Client.silentAuth();
       this.forceUpdate();
@@ -28,7 +26,6 @@ class App extends Component {
         this.props.history.replace('/error/signin');
       }
     }
-    console.log('here3');
     this.setState({checkingSession:false});
   }
 

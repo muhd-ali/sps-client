@@ -1,18 +1,24 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import auth0Client from './Auth';
+import LoadingProfile from '../components/SystemMessages/Loading/LoadingProfile/Main';
+import user from '../models/User';
 
 class Callback extends Component {
 
 
   async componentDidMount() {
     await auth0Client.handleAuthentication();
-    this.props.history.replace('/');
+    let url = '/';
+    if (user.info.isNewUser) {
+      url = '/account/settings';
+    }
+    this.props.history.replace(url);
   }
 
   render() {
     return (
-      <p>Loading profile...</p>
+      <LoadingProfile/>
     );
   }
 }

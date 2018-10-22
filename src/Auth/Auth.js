@@ -1,5 +1,6 @@
 import auth0 from 'auth0-js';
 import { appInfo } from './../global/constants';
+import user from '../models/User';
 
 class Auth {
   constructor() {
@@ -9,7 +10,7 @@ class Auth {
       clientID: this.clientID,
       redirectUri: appInfo.url + '/callback',
       responseType: 'token id_token',
-      scope: 'openid profile'
+      scope: 'openid email profile'
     });
 
     this.getProfile = this.getProfile.bind(this);
@@ -34,25 +35,27 @@ class Auth {
         if (!authResult || !authResult.idToken) {
           return reject(err);
         }
-        this.setSession(authResult);
-        resolve();
+        this.setSession(authResult).then(() => {
+          resolve();
+        });
       });
     });
   }
 
-  setSession(authResult) {
+  async setSession(authResult) {
     this.idToken = authResult.idToken;
     this.profile = authResult.idTokenPayload;
-    // set the time that the id token will expire at
     this.expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
+    await user.populateFrom(authResult.accessToken);
   }
 
   silentAuth() {
     return new Promise((resolve, reject) => {
       this.auth0.checkSession({}, (err, authResult) => {
         if (err) return reject(err);
-        this.setSession(authResult);
-        resolve();
+        this.setSession(authResult).then(() => {
+          resolve();
+        });
       });
     });
   }
@@ -60,6 +63,15 @@ class Auth {
   isAuthenticated() {
     return new Date().getTime() < this.expiresAt;
   }
+
+  // scheduleRenewal() {
+  //   const delay = this.expiresAt - Date.now();
+  //   if (delay > 0) {
+  //     this.tokenRenewalTimeout = setTimeout(() => {
+  //       this.renewToken();
+  //     }, delay);
+  //   }
+  // }
 
   signIn() {
     this.auth0.authorize();
