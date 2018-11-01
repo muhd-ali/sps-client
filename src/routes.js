@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import HomePage from './components/HomePage/Main';
 import NotFoundPage from './components/SystemMessages/Errors/NotFound/Main';
 import SignInError from './components/SystemMessages/Errors/SignIn/Main';
+import SomethingWentWrong from './components/SystemMessages/Errors/SomethingWentWrong/Main';
 import ValidatingSession from './components/SystemMessages/Loading/ValidaingSession/Main';
 import SignIn from './Auth/SignIn';
 import auth0Client from './Auth/Auth';
@@ -30,6 +31,7 @@ class Routes extends Component {
       <SecuredRoute exact path='/account/settings' component={AccountSettings} checkingSession={this.props.checkingSession}></SecuredRoute>
       <Route exact path='/signin' component={SignIn}/>
       <Route exact path='/error/signin' component={SignInError}/>
+      <Route exact path='/error/SomethingWentWrong' component={SomethingWentWrong}/>
       <Route exact path='/callback' component={Callback}/>
       <Route exact path='*' component={NotFoundPage}></Route>
     </Switch>;

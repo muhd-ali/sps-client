@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-import { Button, FormGroup, ControlLabel, FormControl, Alert } from 'react-bootstrap';
+import { Grid, Row, Col, Button, Alert } from 'react-bootstrap';
 import user from '../../../models/User';
+import { AlertList } from 'react-bs-notifier';
+import alertsStateManager from '../../../models/stores/Alerts';
+import { connect } from 'react-redux';
+import TextField from '../../TextField';
 
 class Main extends Component {
   constructor(props) {
@@ -18,47 +22,113 @@ class Main extends Component {
     return null;
   }
 
-  nameChangedTo(e) {
-    const name = e.target.value;
+  nameChangedTo(name) {
     this.setState({
       'name': name,
       'isSubmitDisabled': false,
     });
   }
 
+  updateDataAtServer(data) {
+    return new Promise((resolve, reject) => {
+      user.updateDataTo(data)
+        .then((message) => {
+          this.props.addAlert({
+            'message': message,
+            'type': 'success',
+            'headline': 'Changes Saved!'
+          });
+          resolve();
+        })
+        .catch((error) => {
+          this.props.addAlert({
+            'message': error,
+            'type': 'danger',
+            'headline': 'Try Again!'
+          });
+          reject();
+        });
+    });
+  }
+
+  getFormData() {
+    return {
+      'name': this.state.name,
+    };
+  }
+
+  updateData() {
+    if (this.state.isSubmitDisabled) {
+      return;
+    }
+    this.updateDataAtServer(this.getFormData())
+      .then(() => {
+        this.setState({
+          'isSubmitDisabled': true,
+        });
+      });
+  }
+
   render() {
     return (
       <div>
-        <h1>Settings</h1>
+        <AlertList
+          position='top-right'
+          timeout={2000}
+          onDismiss={(a) => this.props.removeAlert(a)}
+          alerts={this.props.alerts}
+        >
+        </AlertList>
         {user.info.isNewUser &&
           <Alert bsStyle="warning">
             Welcome. Please set your <strong>name</strong>.
           </Alert>
         }
-        <form>
-          <FormGroup
-            controlId='name'
-            validationState={this.getValidationState()}
-          >
-            <ControlLabel>Name</ControlLabel>
-            <FormControl
-              type='text'
-              value={this.state.name}
-              onChange={(e) => this.nameChangedTo(e)}
-            >
-            </FormControl>
-          </FormGroup>
-          <Button
-            disabled={this.state.isSubmitDisabled}
-            bsStyle="primary"
-            type="submit"
-          >
-          Save
-          </Button>
-        </form>
+        <Grid>
+          <h1>Settings</h1>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <form>
+            <Row>
+              <Col sm={6}>
+                <TextField
+                  controlId='name'
+                  label='Name'
+                  value={this.state.name}
+                  validationState={this.getValidationState()}
+                  valueChangedTo={(text) => this.nameChangedTo(text)}
+                  onClear={() => this.nameChangedTo('')}
+                  enterPressedWith={() => this.updateData()}
+                />
+              </Col>
+            </Row>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <Row>
+              <Col sm={6}>
+                <Button
+                  disabled={this.state.isSubmitDisabled}
+                  bsStyle="primary"
+                  onClick={() => this.updateData()}
+                >
+                  Save
+                </Button>
+              </Col>
+            </Row>
+          </form>
+        </Grid>
       </div>
     );
   }
 }
 
-export default Main;
+export default connect(
+  alertsStateManager.mapStateToProps(),
+  alertsStateManager.mapDispatchToProps()
+)(Main);

@@ -4,6 +4,10 @@ import NavBar from './components/NavBar/Main';
 import { withRouter } from 'react-router-dom';
 import Routes from './routes';
 import auth0Client from './Auth/Auth';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faSpinner);
 
 class App extends Component {
   constructor(props) {
@@ -22,9 +26,11 @@ class App extends Component {
       await auth0Client.silentAuth();
       this.forceUpdate();
     } catch (err) {
+      let redirectLink = '/error/SomethingWentWrong';
       if (err.error === 'login_required') {
-        this.props.history.replace('/error/signin');
+        redirectLink = '/error/signin';
       }
+      this.props.history.replace(redirectLink);
     }
     this.setState({checkingSession:false});
   }

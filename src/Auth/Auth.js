@@ -53,9 +53,13 @@ class Auth {
     return new Promise((resolve, reject) => {
       this.auth0.checkSession({}, (err, authResult) => {
         if (err) return reject(err);
-        this.setSession(authResult).then(() => {
-          resolve();
-        });
+        this.setSession(authResult)
+          .then(() => {
+            resolve();
+          })
+          .catch(err => {
+            reject(err);
+          });
       });
     });
   }

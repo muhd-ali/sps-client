@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Template from './../../Template';
+import LoadingTemplate from './../LoadingTemplate';
 
 class Main extends Component {
   render() {
@@ -7,7 +7,7 @@ class Main extends Component {
       Validating Session...
     </h2>;
     return (
-      <Template innerView={innerView}></Template>
+      <LoadingTemplate innerView={innerView}></LoadingTemplate>
     );
   }
 }

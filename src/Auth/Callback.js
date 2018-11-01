@@ -9,8 +9,8 @@ class Callback extends Component {
 
   async componentDidMount() {
     await auth0Client.handleAuthentication();
-    let url = '/';
-    if (user.info.isNewUser) {
+    let url = '/error/signin';
+    if (user && user.info.isNewUser) {
       url = '/account/settings';
     }
     this.props.history.replace(url);

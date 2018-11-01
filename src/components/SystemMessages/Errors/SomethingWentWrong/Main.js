@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import LoadingTemplate from './../LoadingTemplate';
+import Template from './../../Template';
 
 class Main extends Component {
   render() {
     const innerView = <h2>
-      Loading Profile...
+      Something went wrong!
     </h2>;
     return (
-      <LoadingTemplate innerView={innerView}></LoadingTemplate>
+      <Template innerView={innerView}></Template>
     );
   }
 }

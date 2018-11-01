@@ -6,13 +6,17 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import { appInfo } from './global/constants';
+import { Provider } from 'react-redux';
+import store from './models/stores/Main';
 
 document.title = appInfo.name;
 
 
 ReactDOM.render(
   <BrowserRouter>
-    <App/>
+    <Provider store={store}>
+      <App/>
+    </Provider>
   </BrowserRouter>,
   document.getElementById('root')
 );

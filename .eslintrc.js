@@ -33,6 +33,10 @@ module.exports = {
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "quote-props": [
+            "error",
+            "always"
+        ],
     }
 };
