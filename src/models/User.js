@@ -25,11 +25,15 @@ class User {
   }
 
   requestInfoFromServer() {
+    const self = this;
     const url = appInfo.serverAddressWithTokenFor('user/info', this.token);
-    return axios.get(url)
-      .then(response => {
-        this.info = response.data;
-      });
+    return new Promise((resolve) => {
+      axios.get(url)
+        .then(response => {
+          self.info = response.data;
+          resolve();
+        })
+    });
   }
 }
 

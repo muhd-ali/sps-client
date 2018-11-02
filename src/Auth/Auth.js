@@ -4,13 +4,14 @@ import user from '../models/User';
 
 class Auth {
   constructor() {
+    const routes = appInfo.getRoutes();
     this.clientID = 'ATgqm_2d-H595P0cgfNluRZA-FU3UpAd';
     this.auth0 = new auth0.WebAuth({
-      domain: 'venom-in-veins.auth0.com',
-      clientID: this.clientID,
-      redirectUri: appInfo.url + '/callback',
-      responseType: 'token id_token',
-      scope: 'openid email profile'
+      'domain': 'venom-in-veins.auth0.com',
+      'clientID': this.clientID,
+      'redirectUri': appInfo.url + routes.callback,
+      'responseType': 'token id_token',
+      'scope': 'openid email profile'
     });
 
     this.getProfile = this.getProfile.bind(this);
@@ -83,8 +84,8 @@ class Auth {
 
   signOut() {
     this.auth0.logout({
-      returnTo: appInfo.url,
-      clientID: this.clientID,
+      'returnTo': appInfo.url,
+      'clientID': this.clientID,
     });
   }
 }

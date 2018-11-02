@@ -3,15 +3,17 @@ import {withRouter} from 'react-router-dom';
 import auth0Client from './Auth';
 import LoadingProfile from '../components/SystemMessages/Loading/LoadingProfile/Main';
 import user from '../models/User';
+import { appInfo } from '../global/constants';
 
 class Callback extends Component {
 
 
   async componentDidMount() {
+    const routes = appInfo.getRoutes();
     await auth0Client.handleAuthentication();
-    let url = '/error/signin';
+    let url = routes.errorSignIn;
     if (user && user.info.isNewUser) {
-      url = '/account/settings';
+      url = routes.accountSettings;
     }
     this.props.history.replace(url);
   }

@@ -9,6 +9,7 @@ import SignIn from './Auth/SignIn';
 import auth0Client from './Auth/Auth';
 import Callback from './Auth/Callback';
 import AccountSettings from './components/Account/Settings/Main';
+import { appInfo } from './global/constants';
 // <Route exact path={'/order/:type(' + productTypes.join('|') + ')'} component={OrderPage}></Route>
 
 class SecuredRoute extends Component {
@@ -26,14 +27,15 @@ class SecuredRoute extends Component {
 
 class Routes extends Component {
   render() {
+    const routes = appInfo.getRoutes();
     return <Switch>
-      <SecuredRoute exact path='/' component={HomePage} checkingSession={this.props.checkingSession}></SecuredRoute>
-      <SecuredRoute exact path='/account/settings' component={AccountSettings} checkingSession={this.props.checkingSession}></SecuredRoute>
-      <Route exact path='/signin' component={SignIn}/>
-      <Route exact path='/error/signin' component={SignInError}/>
-      <Route exact path='/error/SomethingWentWrong' component={SomethingWentWrong}/>
-      <Route exact path='/callback' component={Callback}/>
-      <Route exact path='*' component={NotFoundPage}></Route>
+      <SecuredRoute exact path={routes.root} component={HomePage} checkingSession={this.props.checkingSession}></SecuredRoute>
+      <SecuredRoute exact path={routes.accountSettings} component={AccountSettings} checkingSession={this.props.checkingSession}></SecuredRoute>
+      <Route exact path={routes.signIn} component={SignIn}/>
+      <Route exact path={routes.errorSignIn} component={SignInError}/>
+      <Route exact path={routes.errorSomething} component={SomethingWentWrong}/>
+      <Route exact path={routes.callback} component={Callback}/>
+      <Route exact path={routes.default} component={NotFoundPage}></Route>
     </Switch>;
   }
 }

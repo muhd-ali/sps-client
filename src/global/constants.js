@@ -8,6 +8,30 @@ class AppInfo {
   serverAddressWithTokenFor(url, token) {
     return this.serverAddress + '/' + url + '/token=' + token;
   }
+
+  securedRoutes() {
+    return {
+      'root': '/',
+      'accountSettings': '/account/settings',
+    };
+  }
+
+  unsecuredRoutes() {
+    return {
+      'signIn': '/signin',
+      'errorSignIn': '/error/signin',
+      'errorSomething': '/error/SomethingWentWrong',
+      'callback': '/callback',
+    };
+  }
+
+  getRoutes() {
+    return {
+      ...this.securedRoutes(),
+      ...this.unsecuredRoutes(),
+      'default': '*',
+    };
+  }
 }
 
 const appInfo = new AppInfo();
