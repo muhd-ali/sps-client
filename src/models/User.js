@@ -17,18 +17,17 @@ class User {
       const data = new FormData();
       for (let i = 0; i < files.length; i++) {
         data.append(
-          'file_'+i,
+          'files',
           files[i],
-          files[i].name
         );
-        axios.post(url, data,{
-          'onUploadProgress': (e) => onProgress(e)
-        }).then(res => {
-          resolve(res);
-        }).catch(err => {
-          reject(err);
-        });
       }
+      axios.post(url, data,{
+        'onUploadProgress': (e) => onProgress(e)
+      }).then(res => {
+        resolve(res);
+      }).catch(err => {
+        reject(err);
+      });
     });
   }
 

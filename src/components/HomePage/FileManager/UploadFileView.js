@@ -13,7 +13,6 @@ class Main extends Component {
   }
 
   selectedFiles(files) {
-    console.log(files);
     this.setState({
       'files': files,
       'isUploadButtonDisabled': false,
@@ -45,6 +44,7 @@ class Main extends Component {
                   <br/>
                   <FormControl
                     type='file'
+                    multiple
                     onChange={(e) => this.selectedFiles(e.target.files)}
                   >
                   </FormControl>
