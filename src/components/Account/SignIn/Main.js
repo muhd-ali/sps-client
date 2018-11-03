@@ -10,63 +10,12 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      'isSubmitDisabled': true,
-      'name': user.info.name,
+      'email_address': '',
     };
   }
 
-  getValidationState() {
-    if (user.info.isNewUser) {
-      return 'warning';
-    }
-    return null;
-  }
-
-  nameChangedTo(name) {
-    this.setState({
-      'name': name,
-      'isSubmitDisabled': false,
-    });
-  }
-
-  updateDataAtServer(data) {
-    return new Promise((resolve, reject) => {
-      user.updateDataTo(data)
-        .then((message) => {
-          this.props.addAlert({
-            'message': message,
-            'type': 'success',
-            'headline': 'Changes Saved!'
-          });
-          resolve();
-        })
-        .catch((error) => {
-          this.props.addAlert({
-            'message': error,
-            'type': 'danger',
-            'headline': 'Try Again!'
-          });
-          reject();
-        });
-    });
-  }
-
-  getFormData() {
-    return {
-      'name': this.state.name,
-    };
-  }
-
-  updateData() {
-    if (this.state.isSubmitDisabled) {
-      return;
-    }
-    this.updateDataAtServer(this.getFormData())
-      .then(() => {
-        this.setState({
-          'isSubmitDisabled': true,
-        });
-      });
+  getValidationStateForEmailAddress() {
+    return null
   }
 
   render() {
@@ -74,18 +23,13 @@ class Main extends Component {
       <div>
         <AlertList
           position='top-right'
-          timeout={2000}
+          timeout={this.props.alertTimeout}
           onDismiss={(a) => this.props.removeAlert(a)}
           alerts={this.props.alerts}
         >
         </AlertList>
-        {user.info.isNewUser &&
-          <Alert bsStyle="warning">
-            Welcome. Please set your <strong>name</strong>.
-          </Alert>
-        }
         <Grid>
-          <h1>Settings</h1>
+          <h1>SignIn</h1>
           <br/>
           <br/>
           <br/>
@@ -95,10 +39,10 @@ class Main extends Component {
             <Row>
               <Col sm={6}>
                 <TextField
-                  controlId='name'
-                  label='Name'
-                  value={this.state.name}
-                  validationState={this.getValidationState()}
+                  controlId='email_address'
+                  label='Email Address'
+                  value={this.state.email}
+                  validationState={this.getValidationStateForEmailAddress()}
                   valueChangedTo={(text) => this.nameChangedTo(text)}
                   onClear={() => this.nameChangedTo('')}
                   enterPressedWith={() => this.updateData()}

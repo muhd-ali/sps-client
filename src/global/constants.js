@@ -34,7 +34,15 @@ class AppInfo {
   }
 }
 
+class AppSecurity {
+  getNameBlackList() {
+    return /[/\\+*]/;
+  }
+}
+
 const appInfo = new AppInfo();
+const appSecurity = new AppSecurity();
 export {
   appInfo,
+  appSecurity,
 };

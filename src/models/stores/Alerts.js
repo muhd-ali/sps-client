@@ -31,6 +31,7 @@ class AlertStore {
     return (state) => {
       return {
         'alerts': state.alertStore.alerts,
+        'alertTimeout': 2000,
       };
     };
   }

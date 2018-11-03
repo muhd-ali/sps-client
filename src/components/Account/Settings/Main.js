@@ -5,6 +5,7 @@ import { AlertList } from 'react-bs-notifier';
 import alertsStateManager from '../../../models/stores/Alerts';
 import { connect } from 'react-redux';
 import TextField from '../../TextField';
+import { appSecurity } from '../../../global/constants';
 
 class Main extends Component {
   constructor(props) {
@@ -13,13 +14,6 @@ class Main extends Component {
       'isSubmitDisabled': true,
       'name': user.info.name,
     };
-  }
-
-  getValidationState() {
-    if (user.info.isNewUser) {
-      return 'warning';
-    }
-    return null;
   }
 
   nameChangedTo(name) {
@@ -61,12 +55,16 @@ class Main extends Component {
     if (this.state.isSubmitDisabled) {
       return;
     }
-    this.updateDataAtServer(this.getFormData())
-      .then(() => {
-        this.setState({
-          'isSubmitDisabled': true,
+    this.setState({
+      'isSubmitDisabled': true,
+    }, () => {
+      this.updateDataAtServer(this.getFormData())
+        .catch(() => {
+          this.setState({
+            'isSubmitDisabled': false,
+          });
         });
-      });
+    });
   }
 
   render() {
@@ -74,7 +72,7 @@ class Main extends Component {
       <div>
         <AlertList
           position='top-right'
-          timeout={2000}
+          timeout={this.props.alertTimeout}
           onDismiss={(a) => this.props.removeAlert(a)}
           alerts={this.props.alerts}
         >
@@ -98,7 +96,7 @@ class Main extends Component {
                   controlId='name'
                   label='Name'
                   value={this.state.name}
-                  validationState={this.getValidationState()}
+                  blackList={appSecurity.getNameBlackList()}
                   valueChangedTo={(text) => this.nameChangedTo(text)}
                   onClear={() => this.nameChangedTo('')}
                   enterPressedWith={() => this.updateData()}
