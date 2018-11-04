@@ -67,6 +67,7 @@ class Main extends Component {
           index={i+1}
           key={i}
           group={groups[i]}
+          triggerReset={() => this.reset()}
         />
       );
     }

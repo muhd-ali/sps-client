@@ -139,6 +139,16 @@ class User {
     });
   }
 
+  deleteGroup(group) {
+    const url = appInfo.serverAddressWithTokenFor('groups/delete/id=' + group._id, this.token);
+    return new Promise((resolve) => {
+      axios.get(url)
+        .then(() => {
+          resolve();
+        });
+    });
+  }
+
   requestInfoFromServer() {
     const self = this;
     const url = appInfo.serverAddressWithTokenFor('user/info', this.token);

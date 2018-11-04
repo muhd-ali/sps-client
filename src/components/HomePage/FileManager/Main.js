@@ -9,7 +9,6 @@ class Main extends Component {
     this.state = {
       'isFileModalShowing': false,
     };
-    this.fileListView = React.createRef();
   }
 
   addButtonClicked() {
@@ -23,7 +22,7 @@ class Main extends Component {
     this.setState({
       'isFileModalShowing': false,
     });
-    this.fileListView.current.reset();
+    this.forceUpdate();
   }
 
   addFileModal() {
@@ -66,7 +65,7 @@ class Main extends Component {
               >
                 <Button
                   onClick={() => {
-                    this.fileListView.current.reset();
+                    this.forceUpdate();
                   }}
                 >
                   <Glyphicon glyph="refresh"/>
@@ -81,9 +80,7 @@ class Main extends Component {
               </Navbar.Form>
             </Navbar.Collapse>
           </Navbar>
-          <FilesListView
-            ref={this.fileListView}
-          />
+          <FilesListView/>
         </Panel>
       </div>
     );

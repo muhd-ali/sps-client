@@ -8,6 +8,7 @@ class Main extends Component {
     super(props);
     this.state = {
       'isDetailsModalShowing': false,
+      'isDeleteDisabled': false,
     };
   }
 
@@ -33,6 +34,13 @@ class Main extends Component {
     </Modal>;
   }
 
+  delete() {
+    this.setState({
+      'isDeleteDisabled': true,
+    });
+    user.deleteGroup(this.props.group)
+      .then(() => this.props.triggerReset());
+  }
 
   render() {
     return (
@@ -52,7 +60,11 @@ class Main extends Component {
             <Glyphicon glyph='open-file'/>
           </Button>
           {' '}
-          <Button bsStyle='danger'>
+          <Button
+            disabled={this.state.isDeleteDisabled}
+            onClick={() => this.delete()}
+            bsStyle='danger'
+          >
             <Glyphicon glyph='remove'/>
           </Button>
         </td>
