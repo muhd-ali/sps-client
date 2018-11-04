@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Modal, Well, Navbar, Panel, Col, Row, Table, Button } from 'react-bootstrap';
+import { Grid, Modal, Well, Navbar, Panel, Col, Row, Button } from 'react-bootstrap';
 import user from '../../../models/User';
 import UploadFileView from './UploadFileView';
 
@@ -7,13 +7,19 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      'isAddUserModalShowing': true,
+      'isAddUserModalShowing': false,
     };
   }
 
   addButtonClicked() {
     this.setState({
       'isAddUserModalShowing': true,
+    });
+  }
+
+  doneUploading() {
+    this.setState({
+      'isAddUserModalShowing': false,
     });
   }
 
@@ -34,7 +40,9 @@ class Main extends Component {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <UploadFileView/>
+            <UploadFileView
+              onDone={() => this.doneUploading()}
+            />
           </Modal.Body>
         </Modal>
         <Panel>

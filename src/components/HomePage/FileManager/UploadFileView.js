@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, FormGroup, ControlLabel, FormControl, Panel, Col, Row, Table, Button } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, ProgressBar, Button } from 'react-bootstrap';
 import user from '../../../models/User';
 
 class Main extends Component {
@@ -23,49 +23,49 @@ class Main extends Component {
     user.uploadFiles(this.state.files, (e) => {
       const progress = e.loaded / e.total * 100;
       this.setState({
-        'progress': progress,
+        'progress': Math.round(progress),
       });
+    }).then(() => this.props.onDone());
+    this.setState({
+      'isUploadButtonDisabled': true,
     });
+
   }
 
   render() {
     return (
       <div>
-        <Grid>
-          <form>
-            <Row>
-              <Col sm={6}>
-                <FormGroup
-                  controlId='file'
-                >
-                  <ControlLabel>
-                    Select File
-                  </ControlLabel>
-                  <br/>
-                  <FormControl
-                    type='file'
-                    multiple
-                    onChange={(e) => this.selectedFiles(e.target.files)}
-                  >
-                  </FormControl>
-                </FormGroup>
-              </Col>
-              <Col sm={6}>
-                {this.state.progress}%
-              </Col>
-            </Row>
+        <form>
+          <FormGroup
+            controlId='file'
+          >
+            <ControlLabel>
+              Select File
+            </ControlLabel>
             <br/>
-            <Row>
-              <Button
-                bsStyle="primary"
-                disabled={this.state.isUploadButtonDisabled}
-                onClick={() => this.upload()}
-              >
-                Upload
-              </Button>
-            </Row>
-          </form>
-        </Grid>
+            <FormControl
+              type='file'
+              multiple
+              onChange={(e) => this.selectedFiles(e.target.files)}
+            >
+            </FormControl>
+          </FormGroup>
+          <br/>
+          <ProgressBar
+            active
+            now={this.state.progress}
+            label={this.state.progress+'%'}
+          />
+          <br/>
+          <hr/>
+          <Button
+            bsStyle="primary"
+            disabled={this.state.isUploadButtonDisabled}
+            onClick={() => this.upload()}
+          >
+            Upload
+          </Button>
+        </form>
       </div>
     );
   }
