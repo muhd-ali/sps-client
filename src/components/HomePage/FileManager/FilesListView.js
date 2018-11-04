@@ -69,6 +69,7 @@ class Main extends Component {
           index={i+1}
           key={i}
           file={files[i]}
+          triggerReset={() => this.reset()}
         />
       );
     }

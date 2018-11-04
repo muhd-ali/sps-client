@@ -129,6 +129,16 @@ class User {
     });
   }
 
+  deleteFile(file) {
+    const url = appInfo.serverAddressWithTokenFor('files/delete/id=' + file._id, this.token);
+    return new Promise((resolve) => {
+      axios.get(url)
+        .then(() => {
+          resolve();
+        });
+    });
+  }
+
   requestInfoFromServer() {
     const self = this;
     const url = appInfo.serverAddressWithTokenFor('user/info', this.token);

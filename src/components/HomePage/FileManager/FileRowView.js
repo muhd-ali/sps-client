@@ -9,6 +9,7 @@ class Main extends Component {
     super(props);
     this.state = {
       'isCommentsModalShowing': false,
+      'isDeleteDisabled': false,
     };
   }
 
@@ -44,6 +45,13 @@ class Main extends Component {
     </Modal>;
   }
 
+  delete() {
+    this.setState({
+      'isDeleteDisabled': true,
+    });
+    user.deleteFile(this.props.file)
+      .then(() => this.props.triggerReset());
+  }
 
   render() {
     return (
@@ -69,7 +77,11 @@ class Main extends Component {
             <Glyphicon glyph='comment'/>
           </Button>
           {' '}
-          <Button bsStyle='danger'>
+          <Button
+            bsStyle='danger'
+            disabled={this.state.isDeleteDisabled}
+            onClick={() => this.delete()}
+          >
             <Glyphicon glyph='remove'/>
           </Button>
         </td>
