@@ -77,13 +77,15 @@ class Main extends Component {
             <Glyphicon glyph='comment'/>
           </Button>
           {' '}
-          <Button
-            bsStyle='danger'
-            disabled={this.state.isDeleteDisabled}
-            onClick={() => this.delete()}
-          >
-            <Glyphicon glyph='remove'/>
-          </Button>
+          {user.info.email_address === this.props.file.metadata.owner &&
+            <Button
+              bsStyle='danger'
+              disabled={this.state.isDeleteDisabled}
+              onClick={() => this.delete()}
+            >
+              <Glyphicon glyph='remove'/>
+            </Button>
+          }
         </td>
       </tr>
     );
