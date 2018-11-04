@@ -91,12 +91,13 @@ class User {
     });
   }
 
-  createGroup(name, users) {
+  createGroup(name, users, files) {
     return new Promise((resolve, reject) => {
       const url = appInfo.serverAddressWithTokenFor('groups/add', this.token);
       const data = {
         'name': name,
         'users': users,
+        'files': files,
       };
       axios.post(url, data)
         .then(res => {

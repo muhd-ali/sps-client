@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { FormGroup, ListGroupItem, ListGroup, ControlLabel, FormControl, Button, Well, Col, Row } from 'react-bootstrap';
+import { FormGroup, Panel, ListGroupItem, ListGroup, ControlLabel, FormControl, Button, Well, Col, Row } from 'react-bootstrap';
 import user from '../../../models/User';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import TextField from '../../TextField';
+import { mapDispatchToProps, mapStateToProps } from '../../../models/stores/Main';
+import { connect } from 'react-redux';
 
 
 class Main extends Component {
@@ -22,25 +24,68 @@ class Main extends Component {
         this.viewFor(i, users[i])
       );
     }
-    return <div
-      style={{
-        'overflowY': 'scroll',
-        'maxHeight': '400px',
-      }}
-    >
-      <ListGroup>
-        { list }
-      </ListGroup>
-    </div>;
+    return <Panel>
+      <Panel.Heading>
+        <Panel.Title>Users</Panel.Title>
+      </Panel.Heading>
+      <Panel.Body>
+        <div
+          style={{
+            'overflowY': 'scroll',
+            'maxHeight': '200px',
+          }}
+        >
+          <ListGroup>
+            { list }
+          </ListGroup>
+        </div>
+      </Panel.Body>
+    </Panel>;
+  }
+
+  viewForFiles() {
+    const list = [];
+    let files = this.props.files;
+    files = files.filter(file => {
+      const id = file._id;
+      const index = this.props.group.files.indexOf(id);
+      return index >= 0;
+    });
+    for (let i=0; i<files.length; i++) {
+      list.push(
+        this.viewFor(i, files[i].filename)
+      );
+    }
+    return <Panel>
+      <Panel.Heading>
+        <Panel.Title>Files</Panel.Title>
+      </Panel.Heading>
+      <Panel.Body>
+        <div
+          style={{
+            'overflowY': 'scroll',
+            'maxHeight': '200px',
+          }}
+        >
+          <ListGroup>
+            { list }
+          </ListGroup>
+        </div>
+      </Panel.Body>
+    </Panel>;
   }
 
   render() {
     return (
       <div>
         {this.viewForUsers()}
+        {this.viewForFiles()}
       </div>
     );
   }
 }
 
-export default Main;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Main);

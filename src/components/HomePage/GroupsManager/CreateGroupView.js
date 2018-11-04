@@ -3,6 +3,8 @@ import { FormGroup, Panel, Checkbox, Table, Well, Col, Row, ControlLabel, FormCo
 import user from '../../../models/User';
 import TextField from '../../TextField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { mapDispatchToProps, mapStateToProps } from '../../../models/stores/Main';
+import { connect } from 'react-redux';
 
 class Main extends Component {
   constructor(props) {
@@ -16,6 +18,7 @@ class Main extends Component {
     this.name = '';
     this.fetchFiles();
     this.selectedUsers = [];
+    this.selectedFiles = [];
   }
 
   fetchFiles() {
@@ -51,7 +54,7 @@ class Main extends Component {
     }
   }
 
-  toggleFor(e, user) {
+  toggleForUsers(e, user) {
     const key = user.email_address;
     if (e.target.checked) {
       this.selectedUsers.push(key);
@@ -61,7 +64,7 @@ class Main extends Component {
     }
   }
 
-  rowsFor(users) {
+  rowsForUsers(users) {
     const rows = [];
     for (let i=0; i<users.length; i++) {
       rows.push(
@@ -69,7 +72,7 @@ class Main extends Component {
           <td style={{'textAlign': 'center'}}>
             <Checkbox
               onChange={e => {
-                this.toggleFor(e, users[i]);
+                this.toggleForUsers(e, users[i]);
               }}
             />
           </td>
@@ -85,11 +88,11 @@ class Main extends Component {
     return rows;
   }
 
-  viewForFiles() {
+  viewForUsers() {
     return <div
       style={{
         'overflowY': 'scroll',
-        'maxHeight': '400px',
+        'maxHeight': '200px',
       }}
     >
       <Table striped bordered condensed hover>
@@ -100,13 +103,61 @@ class Main extends Component {
             <th>Email Address</th>
           </tr>
         </thead>
-        <tbody
-          style={{
-            'overflowY': 'scroll',
-            'height': '500px',
-          }}
-        >
-          { this.rowsFor(this.state.users) }
+        <tbody>
+          { this.rowsForUsers(this.state.users) }
+        </tbody>
+      </Table>
+    </div>;
+  }
+
+  toggleForFiles(e, file) {
+    const key = file._id;
+    if (e.target.checked) {
+      this.selectedFiles.push(key);
+    } else {
+      const index = this.selectedFiles.indexOf(key);
+      this.selectedFiles.splice(index, 1);
+    }
+  }
+
+  rowsForFiles(files) {
+    const rows = [];
+    for (let i=0; i<files.length; i++) {
+      rows.push(
+        <tr key={i}>
+          <td style={{'textAlign': 'center'}}>
+            <Checkbox
+              onChange={e => {
+                this.toggleForFiles(e, files[i]);
+              }}
+            />
+          </td>
+          <td>
+            {files[i].filename}
+          </td>
+        </tr>
+      );
+    }
+    return rows;
+
+  }
+
+  viewForFiles() {
+    return <div
+      style={{
+        'overflowY': 'scroll',
+        'maxHeight': '200px',
+      }}
+    >
+      <Table striped bordered condensed hover>
+        <thead>
+          <tr>
+            <th>Select</th>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          { this.rowsForFiles(this.props.files) }
         </tbody>
       </Table>
     </div>;
@@ -116,7 +167,7 @@ class Main extends Component {
     if (this.state.isUsersLoaded &&
       this.state.isLoadSuccessfully &&
       this.state.users.length > 0) {
-      return this.viewForFiles();
+      return this.viewForUsers();
     } else {
       return <Row>
         <Col smOffset={4} sm={4}>
@@ -151,7 +202,7 @@ class Main extends Component {
     this.setState({
       'isCreateButtonDisabled': true,
     });
-    user.createGroup(this.name, this.selectedUsers)
+    user.createGroup(this.name, this.selectedUsers, this.selectedFiles)
       .then(() => {
         this.props.onDone();
       });
@@ -170,7 +221,28 @@ class Main extends Component {
             }}
           />
           <Panel>
-            { this.usersView() }
+            <Panel.Heading>
+              <Panel.Title>
+                Users
+              </Panel.Title>
+            </Panel.Heading>
+            <Panel.Body>
+              <div
+
+              >
+              </div>
+              { this.usersView() }
+            </Panel.Body>
+          </Panel>
+          <Panel>
+            <Panel.Heading>
+              <Panel.Title>
+                Users
+              </Panel.Title>
+            </Panel.Heading>
+            <Panel.Body>
+              { this.viewForFiles() }
+            </Panel.Body>
           </Panel>
           <hr/>
           <Button
@@ -186,4 +258,7 @@ class Main extends Component {
   }
 }
 
-export default Main;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Main);

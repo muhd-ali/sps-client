@@ -91,12 +91,7 @@ class Main extends Component {
             <th>Options</th>
           </tr>
         </thead>
-        <tbody
-          style={{
-            'overflowY': 'scroll',
-            'height': '500px',
-          }}
-        >
+        <tbody>
           { this.rowsFor(this.state.files) }
         </tbody>
       </Table>
