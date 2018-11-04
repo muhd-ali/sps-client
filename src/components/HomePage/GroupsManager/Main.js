@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Grid, Glyphicon, Modal, Well, Navbar, Panel, Col, Row, Button } from 'react-bootstrap';
-import UploadFileView from './UploadFileView';
-import FilesListView from './FilesListView';
+import CreateGroupView from './CreateGroupView';
+import GroupsListView from './GroupsListView';
 
 class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      'isFileModalShowing': false,
+      'isCreateGroupModalShowing': false,
     };
     this.fileListView = React.createRef();
   }
@@ -15,33 +15,33 @@ class Main extends Component {
   addButtonClicked() {
     this.forceUpdate();
     this.setState({
-      'isFileModalShowing': true,
+      'isCreateGroupModalShowing': true,
     });
   }
 
   doneUploading() {
     this.setState({
-      'isFileModalShowing': false,
+      'isCreateGroupModalShowing': false,
     });
     this.fileListView.current.reset();
   }
 
   addFileModal() {
     return <Modal
-      show={this.state.isFileModalShowing}
+      show={this.state.isCreateGroupModalShowing}
       onHide={() => {
         this.setState({
-          'isFileModalShowing': false,
+          'isCreateGroupModalShowing': false,
         });
       }}
     >
       <Modal.Header closeButton>
         <Modal.Title>
-          Add File
+          Create Group
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <UploadFileView
+        <CreateGroupView
           onDone={() => this.doneUploading()}
         />
       </Modal.Body>
@@ -56,7 +56,7 @@ class Main extends Component {
           <Navbar>
             <Navbar.Header>
               <Navbar.Brand>
-                Files
+                Groups
               </Navbar.Brand>
               <Navbar.Toggle/>
             </Navbar.Header>
@@ -81,7 +81,7 @@ class Main extends Component {
               </Navbar.Form>
             </Navbar.Collapse>
           </Navbar>
-          <FilesListView
+          <GroupsListView
             ref={this.fileListView}
           />
         </Panel>

@@ -47,14 +47,14 @@ class Main extends Component {
     if (this.state.isfilesLoaded) {
       if (this.state.isLoadSuccessfully) {
         if (!this.state.files.length > 0) {
-          return <p>No Files to show.</p>;
+          return <p>No Groups to show.</p>;
         }
       } else {
         return <p>Something went wrong. Please try Again.</p>;
       }
     } else {
       return <div>
-        <p>Loading Files... <FontAwesomeIcon icon='spinner' spin/></p>
+        <p>Loading Groups... <FontAwesomeIcon icon='spinner' spin/></p>
       </div>;
     }
   }
@@ -64,7 +64,7 @@ class Main extends Component {
     for (let i=0; i<files.length; i++) {
       rows.push(
         <FileRowView
-          index={i+1}
+          index={i}
           key={i}
           file={files[i]}
         />
@@ -84,7 +84,7 @@ class Main extends Component {
         <thead>
           <tr>
             <th>#</th>
-            <th>File</th>
+            <th>Group</th>
             <th>Created On</th>
             <th>Options</th>
           </tr>

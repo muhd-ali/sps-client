@@ -19,6 +19,7 @@ class Auth {
     this.isAuthenticated = this.isAuthenticated.bind(this);
     this.signIn = this.signIn.bind(this);
     this.signOut = this.signOut.bind(this);
+    this.handleAuthentication_cache = null;
   }
 
   getProfile() {
@@ -30,17 +31,21 @@ class Auth {
   }
 
   handleAuthentication() {
-    return new Promise((resolve, reject) => {
-      this.auth0.parseHash((err, authResult) => {
-        if (err) return reject(err);
-        if (!authResult || !authResult.idToken) {
-          return reject(err);
-        }
-        this.setSession(authResult).then(() => {
-          resolve();
+    if (this.handleAuthentication_cache === null) {
+      console.log('handling auth');
+      this.handleAuthentication_cache = new Promise((resolve, reject) => {
+        this.auth0.parseHash((err, authResult) => {
+          if (err) return reject(err);
+          if (!authResult || !authResult.idToken) {
+            return reject(err);
+          }
+          this.setSession(authResult).then(() => {
+            resolve();
+          });
         });
       });
-    });
+    }
+    return this.handleAuthentication_cache;
   }
 
   async setSession(authResult) {
@@ -66,7 +71,8 @@ class Auth {
   }
 
   isAuthenticated() {
-    return new Date().getTime() < this.expiresAt;
+    const result = new Date().getTime() < this.expiresAt;
+    return result;
   }
 
   // scheduleRenewal() {

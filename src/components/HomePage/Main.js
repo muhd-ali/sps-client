@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Grid, Col, Row, Button } from 'react-bootstrap';
 import user from '../../models/User';
 import FileManager from './FileManager/Main';
+import GroupsManager from './GroupsManager/Main';
 
 class Main extends Component {
   render() {
@@ -20,6 +21,14 @@ class Main extends Component {
           <br/>
           <Row>
             <FileManager/>
+          </Row>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <Row>
+            <GroupsManager/>
           </Row>
         </Grid>
       </div>

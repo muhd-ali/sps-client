@@ -13,6 +13,7 @@ class AppInfo {
     return {
       'root': '/',
       'accountSettings': '/account/settings',
+      'callback': '/callback',
     };
   }
 
@@ -21,7 +22,6 @@ class AppInfo {
       'signIn': '/signin',
       'errorSignIn': '/error/signin',
       'errorSomething': '/error/SomethingWentWrong',
-      'callback': '/callback',
     };
   }
 

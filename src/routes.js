@@ -5,7 +5,7 @@ import NotFoundPage from './components/SystemMessages/Errors/NotFound/Main';
 import SignInError from './components/SystemMessages/Errors/SignIn/Main';
 import SomethingWentWrong from './components/SystemMessages/Errors/SomethingWentWrong/Main';
 import ValidatingSession from './components/SystemMessages/Loading/ValidaingSession/Main';
-import SignIn from './components/Account/SignIn/Main';
+import SignIn from './Auth/SignIn';
 import auth0Client from './Auth/Auth';
 import Callback from './Auth/Callback';
 import AccountSettings from './components/Account/Settings/Main';

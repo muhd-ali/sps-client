@@ -11,7 +11,7 @@ class Callback extends Component {
   async componentDidMount() {
     const routes = appInfo.getRoutes();
     await auth0Client.handleAuthentication();
-    let url = routes.errorSignIn;
+    let url = '/';
     if (user && user.info.isNewUser) {
       url = routes.accountSettings;
     }

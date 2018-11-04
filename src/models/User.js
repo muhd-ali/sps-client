@@ -91,6 +91,33 @@ class User {
     });
   }
 
+  createGroup(name, users) {
+    return new Promise((resolve, reject) => {
+      const url = appInfo.serverAddressWithTokenFor('groups/add', this.token);
+      const data = {
+        'name': name,
+        'users': users,
+      };
+      axios.post(url, data)
+        .then(res => {
+          resolve();
+        })
+        .catch(err => {
+          reject();
+        });
+    });
+  }
+
+  fetchUsers() {
+    const url = appInfo.serverAddressWithTokenFor('user/all', this.token);
+    return new Promise((resolve) => {
+      axios.get(url)
+        .then(response => {
+          resolve(response.data);
+        });
+    });
+  }
+
   requestInfoFromServer() {
     const self = this;
     const url = appInfo.serverAddressWithTokenFor('user/info', this.token);
