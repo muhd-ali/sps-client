@@ -9,15 +9,18 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      'isCommentssLoaded': false,
+      'isAddDisabled': true,
+      'isCommentsLoaded': false,
       'isLoadSuccessfully': false,
       'comments': null,
     };
+    this.textField = React.createRef();
     this.fetchComments();
   }
   reset() {
+    this.textField.current.clearTextFieldText();
     this.setState({
-      'isCommentssLoaded': false,
+      'isCommentsLoaded': false,
       'isLoadSuccessfully': false,
       'comments': null,
     }, () => {
@@ -29,21 +32,21 @@ class Main extends Component {
     user.getCommentsFor(this.props.file)
       .then(comments => {
         this.setState({
-          'isCommentssLoaded': true,
+          'isCommentsLoaded': true,
           'isLoadSuccessfully': true,
           'comments': comments,
         });
       })
       .catch(err => {
         this.setState({
-          'isCommentssLoaded': true,
+          'isCommentsLoaded': true,
           'isLoadSuccessfully': false,
         });
       });
   }
 
   message() {
-    if (this.state.isCommentssLoaded) {
+    if (this.state.isCommentsLoaded) {
       if (this.state.isLoadSuccessfully) {
         if (!this.state.comments.length > 0) {
           return <p>No Comments to show.</p>;
@@ -61,10 +64,10 @@ class Main extends Component {
   viewFor(index, comment) {
     return <ListGroupItem
       key={index}
-      header={comment.user.name}
+      header={comment.user.name + ' on ' + new Date(comment.createDate).toGMTString()}
     >
       {comment.text}
-    </ListGroupItem>
+    </ListGroupItem>;
   }
 
   viewForComments() {
@@ -75,13 +78,20 @@ class Main extends Component {
         this.viewFor(i, comments[i])
       );
     }
-    return <ListGroup>
-      { list }
-    </ListGroup>;
+    return <div
+      style={{
+        'overflowY': 'scroll',
+        'maxHeight': '400px',
+      }}
+    >
+      <ListGroup>
+        { list }
+      </ListGroup>
+    </div>;
   }
 
   view() {
-    if (this.state.isCommentssLoaded &&
+    if (this.state.isCommentsLoaded &&
       this.state.isLoadSuccessfully &&
       this.state.comments.length > 0) {
       return this.viewForComments();
@@ -100,16 +110,56 @@ class Main extends Component {
     }
   }
 
-  form() {
-    return <TextField
-      controlId={'comment_'+this.props.file._id}
-      label='Comment'
-      value={''}
-      enterPressedWith={() => this.updateData()}
-    >
+  commentChangedTo(text) {
+    if (text === '') {
+      this.setState({
+        'isAddDisabled': true,
+      });
+    } else {
+      this.setState({
+        'isAddDisabled': false,
+      });
+    }
+  }
 
-    </TextField
-  >
+  comment() {
+    const text = this.textField.current.state.value.trim();
+    if (text === '') return;
+    this.setState({
+      'isAddDisabled': true,
+      'isCommentsLoaded': false,
+    }, () => {
+      user.addComment(this.props.file, text)
+        .then(() => {
+          this.reset();
+        })
+        .catch(() => {
+          this.setState({
+            'isAddDisabled': false,
+            'isCommentsLoaded': true,
+          });
+        });
+    });
+  }
+
+  form() {
+    return <form>
+      <TextField
+        ref={this.textField}
+        controlId={'comment_'+this.props.file._id}
+        label='Comment'
+        value={''}
+        valueChangedTo={(text) => this.commentChangedTo(text)}
+        enterPressedWith={() => this.comment()}
+      />
+      <Button
+        disabled={this.state.isAddDisabled}
+        bsStyle='primary'
+        onClick={() => this.comment()}
+      >
+      Add
+      </Button>
+    </form>;
   }
 
   render() {

@@ -11,6 +11,21 @@ class User {
     return this.requestInfoFromServer();
   }
 
+  addComment(file, text) {
+    return new Promise((resolve, reject) => {
+      const url = appInfo.serverAddressWithTokenFor('comments/add/file=' + file._id, this.token);
+      const data = {
+        'text': text,
+      };
+      axios.post(url, data).then(res => {
+        resolve(res);
+      }).catch(err => {
+        console.log('error');
+        reject(err);
+      });
+    });
+  }
+
   getCommentsFor(file) {
     return new Promise((resolve, reject) => {
       const url = appInfo.serverAddressWithTokenFor('comments/file=' + file._id, this.token);
