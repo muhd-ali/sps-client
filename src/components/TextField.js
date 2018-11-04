@@ -15,10 +15,10 @@ class TextField extends Component {
 
   clearTextFieldText() {
     const textField = ReactDOM.findDOMNode(this.textFieldRef.current);
-    textField.value = '';
     textField.focus();
     this.setState({
       'isClearTextButtonShowing': false,
+      'value': '',
     });
     callCallbackIfExistsInObject(
       'onClear',
@@ -77,6 +77,9 @@ class TextField extends Component {
 
 
   setValidationMode() {
+    this.validationList = [];
+    this.validateWith = () => true;
+    this.validationMessage = () => null;
     if (this.props.whiteList) {
       this.validationList = this.props.whiteList;
       this.validateWith = this.validateWithWhiteList;

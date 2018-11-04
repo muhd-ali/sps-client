@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Grid, Modal, Well, Navbar, Panel, Col, Row, Button } from 'react-bootstrap';
-import user from '../../../models/User';
+import { Grid, Glyphicon, Modal, Well, Navbar, Panel, Col, Row, Button } from 'react-bootstrap';
 import UploadFileView from './UploadFileView';
+import FilesListView from './FilesListView';
 
 class Main extends Component {
   constructor(props) {
@@ -9,9 +9,11 @@ class Main extends Component {
     this.state = {
       'isAddUserModalShowing': false,
     };
+    this.fileListView = React.createRef();
   }
 
   addButtonClicked() {
+    this.forceUpdate();
     this.setState({
       'isAddUserModalShowing': true,
     });
@@ -21,30 +23,35 @@ class Main extends Component {
     this.setState({
       'isAddUserModalShowing': false,
     });
+    this.fileListView.current.reset();
+  }
+
+  addFileModal() {
+    return <Modal
+      show={this.state.isAddUserModalShowing}
+      onHide={() => {
+        this.setState({
+          'isAddUserModalShowing': false,
+        });
+      }}
+    >
+      <Modal.Header closeButton>
+        <Modal.Title>
+          Add File
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <UploadFileView
+          onDone={() => this.doneUploading()}
+        />
+      </Modal.Body>
+    </Modal>;
   }
 
   render() {
     return (
       <div>
-        <Modal
-          show={this.state.isAddUserModalShowing}
-          onHide={() => {
-            this.setState({
-              'isAddUserModalShowing': false,
-            });
-          }}
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>
-              Add File
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <UploadFileView
-              onDone={() => this.doneUploading()}
-            />
-          </Modal.Body>
-        </Modal>
+        { this.addFileModal() }
         <Panel>
           <Navbar>
             <Navbar.Header>
@@ -58,26 +65,25 @@ class Main extends Component {
                 pullRight
               >
                 <Button
+                  onClick={() => {
+                    this.fileListView.current.reset();
+                  }}
+                >
+                  <Glyphicon glyph="refresh"/>
+                </Button>
+                {' '}
+                <Button
+                  bsStyle='info'
                   onClick={() => this.addButtonClicked()}
                 >
-                  +
+                  <Glyphicon glyph="plus"/>
                 </Button>
               </Navbar.Form>
             </Navbar.Collapse>
           </Navbar>
-          <Grid>
-            <Row>
-              <Col smOffset={4} sm={4}>
-                <Well
-                  style={{
-                    'textAlign': 'center'
-                  }}
-                >
-                  No Files to show.
-                </Well>
-              </Col>
-            </Row>
-          </Grid>
+          <FilesListView
+            ref={this.fileListView}
+          />
         </Panel>
       </div>
     );

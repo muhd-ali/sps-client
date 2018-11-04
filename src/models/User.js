@@ -11,6 +11,38 @@ class User {
     return this.requestInfoFromServer();
   }
 
+  getCommentsFor(file) {
+    return new Promise((resolve, reject) => {
+      const url = appInfo.serverAddressWithTokenFor('comments/file=' + file._id, this.token);
+      axios.get(url)
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(err => reject(err));
+    });
+  }
+
+  fetchFiles() {
+    return new Promise((resolve, reject) => {
+      const url = appInfo.serverAddressWithTokenFor('files/all', this.token);
+      axios.get(url)
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(err => reject(err));
+    });
+  }
+
+  download(file) {
+    const url = appInfo.serverAddressWithTokenFor('files/download/id=' + file._id, this.token);
+    return new Promise((resolve) => {
+      axios.get(url)
+        .then(response => {
+          resolve(response);
+        });
+    });
+  }
+
   uploadFiles(files, onProgress) {
     return new Promise((resolve, reject) => {
       const url = appInfo.serverAddressWithTokenFor('files/upload', this.token);
@@ -52,7 +84,7 @@ class User {
         .then(response => {
           self.info = response.data;
           resolve();
-        })
+        });
     });
   }
 }
