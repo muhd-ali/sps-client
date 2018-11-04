@@ -1,44 +1,33 @@
 import React, { Component } from 'react';
 import { Glyphicon, Modal, Button } from 'react-bootstrap';
 import user from '../../../models/User';
-import fileDownload from 'react-file-download';
-import CommentsView from './CommentsView';
+import DetailsView from './DetailsView';
 
 class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      'isCommentsModalShowing': false,
+      'isDetailsModalShowing': false,
     };
   }
 
-  download(file) {
-    user.download(file)
-      .then(response => {
-        fileDownload(
-          response.data,
-          file.filename
-        );
-      });
-  }
-
-  commentsModal() {
+  detailsModal() {
     return <Modal
-      show={this.state.isCommentsModalShowing}
+      show={this.state.isDetailsModalShowing}
       onHide={() => {
         this.setState({
-          'isCommentsModalShowing': false,
+          'isDetailsModalShowing': false,
         });
       }}
     >
       <Modal.Header closeButton>
         <Modal.Title>
-          Comments
+          {this.props.group.name}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <CommentsView
-          file={this.props.file}
+        <DetailsView
+          group={this.props.group}
         />
       </Modal.Body>
     </Modal>;
@@ -48,25 +37,19 @@ class Main extends Component {
   render() {
     return (
       <tr key={this.props.index}>
-        {this.commentsModal()}
+        {this.detailsModal()}
         <td>{this.props.index}</td>
-        <td>{this.props.file.filename}</td>
-        <td>{new Date(this.props.file.uploadDate).toGMTString()}</td>
+        <td>{this.props.group.name}</td>
+        <td>{new Date(this.props.group.createDate).toGMTString()}</td>
         <td style={{'textAlign': 'center'}}>
-          <Button
-            onClick={() => this.download(this.props.file)}
-          >
-            <Glyphicon glyph='download-alt'/>
-          </Button>
-          {' '}
           <Button
             onClick={() => {
               this.setState({
-                'isCommentsModalShowing': true,
+                'isDetailsModalShowing': true,
               });
             }}
           >
-            <Glyphicon glyph='comment'/>
+            <Glyphicon glyph='open-file'/>
           </Button>
           {' '}
           <Button bsStyle='danger'>

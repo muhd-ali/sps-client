@@ -108,6 +108,16 @@ class User {
     });
   }
 
+  fetchGroups() {
+    const url = appInfo.serverAddressWithTokenFor('groups/all', this.token);
+    return new Promise((resolve) => {
+      axios.get(url)
+        .then(response => {
+          resolve(response.data);
+        });
+    });
+  }
+
   fetchUsers() {
     const url = appInfo.serverAddressWithTokenFor('user/all', this.token);
     return new Promise((resolve) => {

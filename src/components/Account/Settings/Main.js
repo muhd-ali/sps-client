@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Grid, Row, Col, Button, Alert } from 'react-bootstrap';
 import user from '../../../models/User';
 import { AlertList } from 'react-bs-notifier';
-import alertsStateManager from '../../../models/stores/Alerts';
+import { mapDispatchToProps, mapStateToProps } from '../../../models/stores/Main';
 import { connect } from 'react-redux';
 import TextField from '../../TextField';
 import { appSecurity } from '../../../global/constants';
@@ -127,6 +127,6 @@ class Main extends Component {
 }
 
 export default connect(
-  alertsStateManager.mapStateToProps(),
-  alertsStateManager.mapDispatchToProps()
+  mapStateToProps,
+  mapDispatchToProps
 )(Main);

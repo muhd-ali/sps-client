@@ -7,7 +7,7 @@ const initialState = {
   ],
 };
 
-class AlertStore {
+class AlertsStore {
   constructor() {
     this.setDictionaryForActionTypes();
     this.setDictionaryForReducerActionHandlers();
@@ -30,7 +30,7 @@ class AlertStore {
   mapStateToProps() {
     return (state) => {
       return {
-        'alerts': state.alertStore.alerts,
+        'alerts': state.alertsStore.alerts,
         'alertTimeout': 2000,
       };
     };
@@ -86,5 +86,5 @@ class AlertStore {
   }
 }
 
-const alertStore = new AlertStore();
-export default alertStore;
+const alertsStore = new AlertsStore();
+export default alertsStore;

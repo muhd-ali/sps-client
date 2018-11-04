@@ -3,6 +3,8 @@ import { Grid, Table, Well, Col, Row, Button } from 'react-bootstrap';
 import user from '../../../models/User';
 import FileRowView from './FileRowView';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { mapDispatchToProps, mapStateToProps } from '../../../models/stores/Main';
+import { connect } from 'react-redux';
 
 class Main extends Component {
   constructor(props) {
@@ -27,12 +29,12 @@ class Main extends Component {
   }
 
   fetchFiles() {
-    user.fetchFiles()
-      .then(files => {
+    this.props.fetchFilesFor(user)
+      .then(() => {
         this.setState({
           'isfilesLoaded': true,
           'isLoadSuccessfully': true,
-          'files': files,
+          'files': this.props.files,
         });
       })
       .catch(err => {
@@ -132,4 +134,7 @@ class Main extends Component {
   }
 }
 
-export default Main;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Main);
