@@ -1,9 +1,9 @@
 class AppInfo {
   constructor() {
-    this.url_local = 'http://localhost:3000';
-    this.url = 'https://thawing-badlands-89809.herokuapp.com';
     this.name = 'SP Share';
-    this.serverAddress_local ='http://localhost:8080';
+    // this.url = 'http://localhost:3000';
+    // this.serverAddress ='http://localhost:8080';
+    this.url = 'https://thawing-badlands-89809.herokuapp.com';
     this.serverAddress ='https://quiet-stream-72857.herokuapp.com';
   }
 
