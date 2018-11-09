@@ -204,7 +204,7 @@ class Main extends Component {
     });
     user.createGroup(this.name, this.selectedUsers, this.selectedFiles)
       .then(() => {
-        this.props.onDone();
+        this.props.onAdd();
       });
   }
 

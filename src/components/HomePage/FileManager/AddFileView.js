@@ -25,7 +25,7 @@ class Main extends Component {
       this.setState({
         'progress': Math.round(progress),
       });
-    }).then(() => this.props.onDone());
+    }).then(() => this.props.onAdd());
     this.setState({
       'isUploadButtonDisabled': true,
     });
