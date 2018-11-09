@@ -66,6 +66,22 @@ class Main extends Component {
     return rows;
   }
 
+  itemsTableHeaderView() {
+    const tags = [];
+    const fields = this.props.headerFields;
+    for (let i=0; i<fields.length; i++) {
+      tags.push(
+        <th key={i+1}>
+          { fields[i] }
+        </th>
+      );
+    }
+    return <tr key={0}>
+      <th key={0}>#</th>
+      {tags}
+    </tr>;
+  }
+
   viewForItems() {
     return <div
       style={{
@@ -75,7 +91,7 @@ class Main extends Component {
     >
       <Table striped bordered condensed hover>
         <thead>
-          {this.props.itemsTableHeaderView}
+          { this.itemsTableHeaderView() }
         </thead>
         <tbody>
           { this.rowsFor(this.state.items) }
