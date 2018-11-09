@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, Panel, Checkbox, Table, Well, Col, Row, ControlLabel, FormControl, ProgressBar, Button } from 'react-bootstrap';
+import { Panel, Checkbox, Table, Well, Col, Row, Button } from 'react-bootstrap';
 import user from '../../../models/User';
 import TextField from '../../TextField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

@@ -1,62 +1,72 @@
 import React, { Component } from 'react';
-import { Grid, Glyphicon, Modal, Well, Navbar, Panel, Col, Row, Button } from 'react-bootstrap';
-import UploadFileView from './UploadFileView';
-import FilesListView from './FilesListView';
+import { Glyphicon, Modal, Navbar, Panel, Button } from 'react-bootstrap';
 
 class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      'isFileModalShowing': false,
+      'isAddModalShowing': false,
     };
-    this.fileListView = React.createRef();
+    this.listView = React.createRef();
   }
 
   addButtonClicked() {
     this.forceUpdate();
     this.setState({
-      'isFileModalShowing': true,
+      'isAddModalShowing': true,
     });
   }
 
-  doneUploading() {
+  doneAdding() {
     this.setState({
-      'isFileModalShowing': false,
+      'isAddModalShowing': false,
     });
-    this.fileListView.current.getWrappedInstance().reset();
+    this.reloadData();
   }
 
-  addFileModal() {
+  reloadData() {
+    const component = this.listView.current;
+    const name = component.constructor.name;
+    if (name === 'Connect') {
+      component.getWrappedInstance().reset();
+    } else {
+      component.reset();
+    }
+  }
+
+  addModal() {
+    const AddView = this.props.addView;
     return <Modal
-      show={this.state.isFileModalShowing}
+      show={this.state.isAddModalShowing}
       onHide={() => {
         this.setState({
-          'isFileModalShowing': false,
+          'isAddModalShowing': false,
         });
       }}
     >
       <Modal.Header closeButton>
         <Modal.Title>
-          Add File
+          {this.props.addViewTitle}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <UploadFileView
-          onDone={() => this.doneUploading()}
+        <AddView
+          onAdd={() => this.doneAdding()}
         />
       </Modal.Body>
     </Modal>;
   }
 
   render() {
+    const ListView = this.props.listView;
     return (
       <div>
-        { this.addFileModal() }
+        { this.addModal() }
         <Panel>
           <Navbar>
             <Navbar.Header>
               <Navbar.Brand>
-                Files
+                {this.props.title}
               </Navbar.Brand>
               <Navbar.Toggle/>
             </Navbar.Header>
@@ -66,7 +76,7 @@ class Main extends Component {
               >
                 <Button
                   onClick={() => {
-                    this.fileListView.current.getWrappedInstance().reset();
+                    this.reloadData();
                   }}
                 >
                   <Glyphicon glyph="refresh"/>
@@ -81,8 +91,8 @@ class Main extends Component {
               </Navbar.Form>
             </Navbar.Collapse>
           </Navbar>
-          <FilesListView
-            ref={this.fileListView}
+          <ListView
+            ref={this.listView}
           />
         </Panel>
       </div>
