@@ -51,10 +51,12 @@ class User {
   download(file) {
     const url = appInfo.serverAddressWithTokenFor('files/download/id=' + file._id, this.token);
     return new Promise((resolve) => {
-      axios.get(url)
-        .then(response => {
-          resolve(response);
-        });
+      const link = document.createElement('a');
+      link.download = file.filename;
+      link.href = url;
+      link.setAttribute('target', '_blank');
+      link.click();
+      resolve();
     });
   }
 

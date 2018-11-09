@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Glyphicon, Modal, Button } from 'react-bootstrap';
 import user from '../../../models/User';
-import fileDownload from 'react-file-download';
 import CommentsView from './CommentsView';
 
 class Main extends Component {
@@ -14,13 +13,7 @@ class Main extends Component {
   }
 
   download(file) {
-    user.download(file)
-      .then(response => {
-        fileDownload(
-          response.data,
-          file.filename
-        );
-      });
+    user.download(file);
   }
 
   commentsModal() {
