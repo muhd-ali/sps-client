@@ -26,10 +26,7 @@ class Main extends Component {
 
   reloadData() {
     const component = this.listView.current;
-    const name = component.constructor.name;
-    console.log('Component:', component);
-    console.log('Name:', name);
-    if (name === 'Connect') {
+    if (!component.listView) {
       component.getWrappedInstance().reset();
     } else {
       component.reset();
