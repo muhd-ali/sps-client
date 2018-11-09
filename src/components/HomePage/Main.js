@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Col, Row, Button } from 'react-bootstrap';
+import { Grid, Row } from 'react-bootstrap';
 import user from '../../models/User';
 import FileManager from './FileManager/Main';
 import GroupsManager from './GroupsManager/Main';

@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, Panel, ListGroupItem, ListGroup, ControlLabel, FormControl, Button, Well, Col, Row } from 'react-bootstrap';
-import user from '../../../models/User';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import TextField from '../../TextField';
+import { Panel, ListGroupItem, ListGroup } from 'react-bootstrap';
 import { mapDispatchToProps, mapStateToProps } from '../../../models/stores/Main';
 import { connect } from 'react-redux';
 

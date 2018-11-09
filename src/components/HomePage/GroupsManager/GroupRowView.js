@@ -47,28 +47,76 @@ class Main extends Component {
       <tr key={this.props.index}>
         {this.detailsModal()}
         <td>{this.props.index}</td>
-        <td>{this.props.group.name}</td>
-        <td>{new Date(this.props.group.createDate).toGMTString()}</td>
-        <td style={{'textAlign': 'center'}}>
-          <Button
-            onClick={() => {
-              this.setState({
-                'isDetailsModalShowing': true,
-              });
+        <td>
+          <div
+            style={{
+              'overflowX': 'scroll',
+              'width': '10rem',
             }}
           >
-            <Glyphicon glyph='open-file'/>
-          </Button>
-          {' '}
-          {user.info.email_address === this.props.group.owner &&
-            <Button
-              disabled={this.state.isDeleteDisabled}
-              onClick={() => this.delete()}
-              bsStyle='danger'
+            <div
+              style={{
+                'width': 'auto',
+                'whiteSpace':'nowrap',
+              }}
             >
-              <Glyphicon glyph='remove'/>
-            </Button>
-          }
+              {this.props.group.name}
+            </div>
+          </div>
+        </td>
+        <td>
+          <div
+            style={{
+              'overflowX': 'scroll',
+              'width': '8rem',
+            }}
+          >
+            <div
+              style={{
+                'width': 'auto',
+                'whiteSpace':'nowrap',
+              }}
+            >
+              {
+                new Date(this.props.group.createDate).toGMTString()
+              }
+            </div>
+          </div>
+        </td>
+        <td style={{'textAlign': 'center'}}>
+          <div
+            style={{
+              'overflowX': 'scroll',
+              'width': '13rem',
+            }}
+          >
+            <div
+              style={{
+                'width': 'auto',
+                'whiteSpace':'nowrap',
+              }}
+            >
+              <Button
+                onClick={() => {
+                  this.setState({
+                    'isDetailsModalShowing': true,
+                  });
+                }}
+              >
+                <Glyphicon glyph='open-file'/>
+              </Button>
+              {' '}
+              {user.info.email_address === this.props.group.owner &&
+                <Button
+                  disabled={this.state.isDeleteDisabled}
+                  onClick={() => this.delete()}
+                  bsStyle='danger'
+                >
+                  <Glyphicon glyph='remove'/>
+                </Button>
+              }
+            </div>
+          </div>
         </td>
       </tr>
     );

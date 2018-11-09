@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, ListGroupItem, ListGroup, ControlLabel, FormControl, Button, Well, Col, Row } from 'react-bootstrap';
+import { ListGroupItem, ListGroup, Button, Well, Col, Row } from 'react-bootstrap';
 import user from '../../../models/User';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import TextField from '../../TextField';
