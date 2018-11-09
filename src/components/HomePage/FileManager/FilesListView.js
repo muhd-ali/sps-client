@@ -132,5 +132,7 @@ class Main extends Component {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
+  null,
+  { 'withRef': true },
 )(Main);

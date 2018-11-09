@@ -58,34 +58,82 @@ class Main extends Component {
       <tr key={this.props.index}>
         {this.commentsModal()}
         <td>{this.props.index}</td>
-        <td>{this.props.file.filename}</td>
-        <td>{new Date(this.props.file.uploadDate).toGMTString()}</td>
-        <td style={{'textAlign': 'center'}}>
-          <Button
-            onClick={() => this.download(this.props.file)}
-          >
-            <Glyphicon glyph='download-alt'/>
-          </Button>
-          {' '}
-          <Button
-            onClick={() => {
-              this.setState({
-                'isCommentsModalShowing': true,
-              });
+        <td>
+          <div
+            style={{
+              'overflowX': 'scroll',
+              'width': '10rem',
             }}
           >
-            <Glyphicon glyph='comment'/>
-          </Button>
-          {' '}
-          {user.info.email_address === this.props.file.metadata.owner &&
-            <Button
-              bsStyle='danger'
-              disabled={this.state.isDeleteDisabled}
-              onClick={() => this.delete()}
+            <div
+              style={{
+                'width': 'auto',
+                'whiteSpace':'nowrap',
+              }}
             >
-              <Glyphicon glyph='remove'/>
-            </Button>
-          }
+              {this.props.file.filename}
+            </div>
+          </div>
+        </td>
+        <td>
+          <div
+            style={{
+              'overflowX': 'scroll',
+              'width': '8rem',
+            }}
+          >
+            <div
+              style={{
+                'width': 'auto',
+                'whiteSpace':'nowrap',
+              }}
+            >
+              {
+                new Date(this.props.file.uploadDate).toGMTString()
+              }
+            </div>
+          </div>
+        </td>
+        <td style={{'textAlign': 'center'}}>
+          <div
+            style={{
+              'overflowX': 'scroll',
+              'width': '13rem',
+            }}
+          >
+            <div
+              style={{
+                'width': 'auto',
+                'whiteSpace':'nowrap',
+              }}
+            >
+              <Button
+                onClick={() => this.download(this.props.file)}
+              >
+                <Glyphicon glyph='download-alt'/>
+              </Button>
+              {' '}
+              <Button
+                onClick={() => {
+                  this.setState({
+                    'isCommentsModalShowing': true,
+                  });
+                }}
+              >
+                <Glyphicon glyph='comment'/>
+              </Button>
+              {' '}
+              {user.info.email_address === this.props.file.metadata.owner &&
+              <Button
+                bsStyle='danger'
+                disabled={this.state.isDeleteDisabled}
+                onClick={() => this.delete()}
+              >
+                <Glyphicon glyph='remove'/>
+              </Button>
+              }
+            </div>
+          </div>
         </td>
       </tr>
     );
