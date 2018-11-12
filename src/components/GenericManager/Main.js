@@ -61,7 +61,7 @@ class Main extends Component {
     const ListView = this.props.listView;
     return (
       <div>
-        { this.addModal() }
+        { this.props.addView && this.addModal() }
         <Panel>
           <Navbar>
             <Navbar.Header>
@@ -82,12 +82,15 @@ class Main extends Component {
                   <Glyphicon glyph="refresh"/>
                 </Button>
                 {' '}
-                <Button
-                  bsStyle='info'
-                  onClick={() => this.addButtonClicked()}
-                >
-                  <Glyphicon glyph="plus"/>
-                </Button>
+                { this.props.addView &&
+                  <Button
+                    bsStyle='info'
+                    onClick={() => this.addButtonClicked()}
+                  >
+                    <Glyphicon glyph="plus"/>
+                  </Button>
+                }
+                {' '}
               </Navbar.Form>
             </Navbar.Collapse>
           </Navbar>

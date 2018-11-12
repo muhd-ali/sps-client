@@ -11,6 +11,23 @@ class User {
     return this.info.roles.indexOf('admin') > -1;
   }
 
+  updateUserIsAdminTo(user, isAdmin) {
+    return new Promise((resolve, reject) => {
+      const url = appInfo.serverAddressWithTokenFor('user/perms/update', this.token);
+      const data = {
+        'email_address': user.email_address,
+        'isAdmin': isAdmin,
+      }
+      axios.post(url, data)
+        .then(response => {
+          resolve('Updated changes successfully at server');
+        })
+        .catch(err => {
+          reject('I am sorry. I failed you.');
+        });
+    });
+  }
+
   addComment(file, text) {
     return new Promise((resolve, reject) => {
       const url = appInfo.serverAddressWithTokenFor('comments/add/file=' + file._id, this.token);

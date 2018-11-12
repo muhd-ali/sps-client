@@ -24,12 +24,12 @@ class Main extends Component {
     >
       <Modal.Header closeButton>
         <Modal.Title>
-          {this.props.group.name}
+          {this.props.item.name}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <DetailsView
-          group={this.props.group}
+          group={this.props.item}
         />
       </Modal.Body>
     </Modal>;
@@ -39,12 +39,12 @@ class Main extends Component {
     this.setState({
       'isDeleteDisabled': true,
     });
-    user.deleteGroup(this.props.group)
+    user.deleteGroup(this.props.item)
       .then(() => this.props.triggerReset());
   }
 
   toggleActivation() {
-    const group = this.props.group;
+    const group = this.props.item;
     const data = {
       'isActive': !group.isActive
     };
@@ -57,7 +57,7 @@ class Main extends Component {
   }
 
   render() {
-    const group = this.props.group;
+    const group = this.props.item;
     let style = {};
     if (!group.isActive) {
       style.backgroundColor = 'gray';

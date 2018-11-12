@@ -6,6 +6,7 @@ import { mapDispatchToProps, mapStateToProps } from '../../../models/stores/Main
 import { connect } from 'react-redux';
 import TextField from '../../TextField';
 import { appSecurity } from '../../../global/constants';
+import UsersManager from './UsersManager/Main';
 
 class Main extends Component {
   constructor(props) {
@@ -88,6 +89,11 @@ class Main extends Component {
           <br/>
           <br/>
           <br/>
+          {user.isAdmin() &&
+            <Row>
+              <UsersManager/>
+            </Row>
+          }
           <br/>
           <form>
             <Row>
@@ -103,10 +109,6 @@ class Main extends Component {
                 />
               </Col>
             </Row>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
             <br/>
             <Row>
               <Col sm={6}>

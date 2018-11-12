@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import user from '../../../models/User';
-import FileRowView from './FileRowView';
-import { mapDispatchToProps, mapStateToProps } from '../../../models/stores/Main';
-import { connect } from 'react-redux';
-import ListView from '../GenericManager/ListView';
+import RowView from './RowView';
+import ListView from '../../GenericManager/ListView';
 
 class Main extends Component {
   constructor(props) {
@@ -11,28 +9,28 @@ class Main extends Component {
     this.listView = React.createRef();
   }
 
-  fetchFiles() {
+  fetch() {
     return new Promise((resolve, reject) => {
-      this.props.fetchFilesFor(user)
-        .then(() => {
-          resolve(this.props.files);
+      user.fetchGroups()
+        .then(groups => {
+          resolve(groups);
         })
         .catch(err => reject(err));
     });
   }
 
   rowFor(index, item) {
-    return <FileRowView
+    return <RowView
       index={index+1}
       key={index}
-      file={item}
+      item={item}
       triggerReset={() => this.reset()}
     />;
   }
 
   headerFields() {
     return [
-      'File',
+      'Group',
       'Created On',
       'Options'
     ];
@@ -48,15 +46,10 @@ class Main extends Component {
         ref={this.listView}
         rowFor={(index, item) => this.rowFor(index, item)}
         headerFields={this.headerFields()}
-        fetchItems={() => this.fetchFiles()}
+        fetchItems={() => this.fetch()}
       />
     );
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-  null,
-  { 'withRef': true },
-)(Main);
+export default Main;

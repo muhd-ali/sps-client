@@ -32,7 +32,7 @@ class Main extends Component {
       </Modal.Header>
       <Modal.Body>
         <CommentsView
-          file={this.props.file}
+          file={this.props.item}
         />
       </Modal.Body>
     </Modal>;
@@ -42,7 +42,7 @@ class Main extends Component {
     this.setState({
       'isDeleteDisabled': true,
     });
-    user.deleteFile(this.props.file)
+    user.deleteFile(this.props.item)
       .then(() => this.props.triggerReset());
   }
 
@@ -64,7 +64,7 @@ class Main extends Component {
                 'whiteSpace':'nowrap',
               }}
             >
-              {this.props.file.filename}
+              {this.props.item.filename}
             </div>
           </div>
         </td>
@@ -82,7 +82,7 @@ class Main extends Component {
               }}
             >
               {
-                new Date(this.props.file.uploadDate).toGMTString()
+                new Date(this.props.item.uploadDate).toGMTString()
               }
             </div>
           </div>
@@ -101,7 +101,7 @@ class Main extends Component {
               }}
             >
               <Button
-                onClick={() => this.download(this.props.file)}
+                onClick={() => this.download(this.props.item)}
               >
                 <Glyphicon glyph='download-alt'/>
               </Button>
@@ -116,7 +116,7 @@ class Main extends Component {
                 <Glyphicon glyph='comment'/>
               </Button>
               {' '}
-              {(user.isAdmin() || (user.info.email_address === this.props.file.metadata.owner)) &&
+              {(user.isAdmin() || (user.info.email_address === this.props.item.metadata.owner)) &&
               <Button
                 bsStyle='danger'
                 disabled={this.state.isDeleteDisabled}
