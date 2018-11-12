@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Glyphicon, Modal, Navbar, Panel, Button } from 'react-bootstrap';
+import './style.css';
 
 class Main extends Component {
   constructor(props) {

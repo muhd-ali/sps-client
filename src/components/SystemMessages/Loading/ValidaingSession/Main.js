@@ -3,9 +3,9 @@ import LoadingTemplate from './../LoadingTemplate';
 
 class Main extends Component {
   render() {
-    const innerView = <h2>
+    const innerView = <h3>
       Validating Session...
-    </h2>;
+    </h3>;
     return (
       <LoadingTemplate innerView={innerView}></LoadingTemplate>
     );

@@ -2,13 +2,13 @@ import axios from 'axios';
 import { appInfo } from '../global/constants';
 
 class User {
-  constructor() {
-    this.populated = false;
-  }
-
   populateFrom(token){
     this.token = token;
     return this.requestInfoFromServer();
+  }
+
+  isAdmin() {
+    return this.info.roles.indexOf('admin') > -1;
   }
 
   addComment(file, text) {
@@ -80,7 +80,7 @@ class User {
     });
   }
 
-  updateDataTo(data) {
+  updateTo(data) {
     return new Promise((resolve, reject) => {
       const url = appInfo.serverAddressWithTokenFor('user/update', this.token);
       axios.post(url, data)
@@ -132,9 +132,9 @@ class User {
   }
 
   deleteFile(file) {
-    const url = appInfo.serverAddressWithTokenFor('files/delete/id=' + file._id, this.token);
+    const url = appInfo.serverAddressWithTokenFor('files/id=' + file._id, this.token);
     return new Promise((resolve) => {
-      axios.get(url)
+      axios.delete(url)
         .then(() => {
           resolve();
         });
@@ -142,11 +142,28 @@ class User {
   }
 
   deleteGroup(group) {
-    const url = appInfo.serverAddressWithTokenFor('groups/delete/id=' + group._id, this.token);
+    const url = appInfo.serverAddressWithTokenFor('groups/id=' + group._id, this.token);
     return new Promise((resolve) => {
-      axios.get(url)
+      axios.delete(url)
         .then(() => {
           resolve();
+        });
+    });
+  }
+
+  updateGroupTo(group, groupData) {
+    return new Promise((resolve, reject) => {
+      const url = appInfo.serverAddressWithTokenFor('groups/update', this.token);
+      const data = {
+        'groupID': group._id,
+        'data': groupData,
+      };
+      axios.post(url, data)
+        .then(response => {
+          resolve('Updated group successfully at server.');
+        })
+        .catch(err => {
+          reject('I am sorry. I failed you.');
         });
     });
   }

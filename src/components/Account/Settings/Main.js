@@ -25,7 +25,7 @@ class Main extends Component {
 
   updateDataAtServer(data) {
     return new Promise((resolve, reject) => {
-      user.updateDataTo(data)
+      user.updateTo(data)
         .then((message) => {
           this.props.addAlert({
             'message': message,

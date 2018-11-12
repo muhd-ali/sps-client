@@ -9,6 +9,7 @@ class Main extends Component {
     this.state = {
       'isDetailsModalShowing': false,
       'isDeleteDisabled': false,
+      'isActivateDisabled': false,
     };
   }
 
@@ -42,9 +43,31 @@ class Main extends Component {
       .then(() => this.props.triggerReset());
   }
 
+  toggleActivation() {
+    const group = this.props.group;
+    const data = {
+      'isActive': !group.isActive
+    };
+    this.setState({
+      'isActivateDisabled': true,
+    }, () => {
+      user.updateGroupTo(group, data)
+        .then(() => this.props.triggerReset());
+    });
+  }
+
   render() {
+    const group = this.props.group;
+    let style = {};
+    if (!group.isActive) {
+      style.backgroundColor = 'gray';
+      style.color = 'lightGray';
+    }
     return (
-      <tr key={this.props.index}>
+      <tr
+        key={this.props.index}
+        style={style}
+      >
         {this.detailsModal()}
         <td>{this.props.index}</td>
         <td>
@@ -60,7 +83,7 @@ class Main extends Component {
                 'whiteSpace':'nowrap',
               }}
             >
-              {this.props.group.name}
+              {group.name}
             </div>
           </div>
         </td>
@@ -78,7 +101,7 @@ class Main extends Component {
               }}
             >
               {
-                new Date(this.props.group.createDate).toGMTString()
+                new Date(group.createDate).toGMTString()
               }
             </div>
           </div>
@@ -106,7 +129,18 @@ class Main extends Component {
                 <Glyphicon glyph='open-file'/>
               </Button>
               {' '}
-              {user.info.email_address === this.props.group.owner &&
+              {user.isAdmin() &&
+                <Button
+                  disabled={this.state.isActivateDisabled}
+                  title={(group.isActive ? 'Disable' : 'Enable') + ' Group'}
+                  onClick={() => this.toggleActivation()}
+                  bsStyle={group.isActive ? 'danger' : 'success'}
+                >
+                  <Glyphicon glyph='off'/>
+                </Button>
+              }
+              {' '}
+              {(user.isAdmin() || (user.info.email_address === group.owner)) &&
                 <Button
                   disabled={this.state.isDeleteDisabled}
                   onClick={() => this.delete()}

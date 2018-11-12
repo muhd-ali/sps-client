@@ -83,21 +83,14 @@ class Main extends Component {
   }
 
   viewForItems() {
-    return <div
-      style={{
-        'overflowY': 'scroll',
-        'maxHeight': '400px',
-      }}
-    >
-      <Table striped bordered condensed hover>
-        <thead>
-          { this.itemsTableHeaderView() }
-        </thead>
-        <tbody>
-          { this.rowsFor(this.state.items) }
-        </tbody>
-      </Table>
-    </div>;
+    return <Table striped bordered condensed hover>
+      <thead>
+        { this.itemsTableHeaderView() }
+      </thead>
+      <tbody>
+        { this.rowsFor(this.state.items) }
+      </tbody>
+    </Table>;
   }
 
   view() {
@@ -106,11 +99,15 @@ class Main extends Component {
       this.state.items.length > 0) {
       return this.viewForItems();
     } else {
-      return <Row>
-        <Col smOffset={4} sm={4}>
+      return <Row
+        style={{
+          'paddingTop': '15rem',
+        }}
+      >
+        <Col smOffset={1} sm={10}>
           <Well
             style={{
-              'textAlign': 'center'
+              'textAlign': 'center',
             }}
           >
             {this.message()}
@@ -122,11 +119,20 @@ class Main extends Component {
 
   render() {
     return (
-      <div>
-        <Grid>
+      <Grid
+        style={{
+          'width': 'auto',
+        }}
+      >
+        <div
+          style={{
+            'overflowY': 'scroll',
+            'height': '40rem',
+          }}
+        >
           { this.view() }
-        </Grid>
-      </div>
+        </div>
+      </Grid>
     );
   }
 }
