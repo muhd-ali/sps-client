@@ -32,7 +32,6 @@ class Auth {
 
   handleAuthentication() {
     if (this.handleAuthentication_cache === null) {
-      console.log('handling auth');
       this.handleAuthentication_cache = new Promise((resolve, reject) => {
         this.auth0.parseHash((err, authResult) => {
           if (err) return reject(err);

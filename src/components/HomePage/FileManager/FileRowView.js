@@ -116,7 +116,7 @@ class Main extends Component {
                 <Glyphicon glyph='comment'/>
               </Button>
               {' '}
-              {user.info.email_address === this.props.file.metadata.owner &&
+              {(user.isAdmin() || (user.info.email_address === this.props.file.metadata.owner)) &&
               <Button
                 bsStyle='danger'
                 disabled={this.state.isDeleteDisabled}
